@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Create from './Create';
 import axios from 'axios';
 import todoImage from './images/hell.jpg'
+import { BsCheckCircleFill, BsCircleFill, BsFillTrashFill } from 'react-icons/bs';
 
 function Home() {
     const [todos, setTodos] = useState([]);
@@ -9,8 +10,14 @@ function Home() {
     useEffect(() => {
         axios.get('http://localhost:3001/get')
             .then(result => setTodos(result.data))
-            .catch(err => console.log(err));
+            .catch(err => console.log(err))
     }, []);
+
+    const handleEdit = (id) => {
+        axios.put('http://localhost:3001/update/' + id)
+            .then(result => console.log(result))
+            .catch(err => console.log(err));
+    };  
 
     return (
         <div className="home">
@@ -25,7 +32,16 @@ function Home() {
                 : (
                     todos.map(todo => (
                         <div className='task' key={todo._id}>
-                            <p>{todo.task}</p> 
+                          <div className='checkbox' onClick={() => handleEdit(todo._id)}>
+                            {todo.done ?
+                              <BsCheckCircleFill className='icon'> </BsCheckCircleFill>
+                              : <BsCircleFill className='icon'/>
+                            }
+                            <p className={todo.done ? "line_through" : ""}>{todo.task}</p>
+                          </div>
+                          <div>
+                            <span><BsFillTrashFill className='icon' /></span>
+                          </div>
                         </div>
                     ))
                   )

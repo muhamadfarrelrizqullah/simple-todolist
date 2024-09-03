@@ -19,7 +19,6 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
-
 h2 {
   color: #333; 
   margin-bottom: 20px; 
@@ -42,12 +41,12 @@ h2 {
 }
 
 .create_form input:focus {
-  border-color: #007bff; 
+  border-color: #0056b3; 
 }
 
 .create_form button {  
   padding: 10px 20px;
-  background-color: #007bff; 
+  background-color: #0056b3; 
   color: white;
   border: none;
   border-radius: 5px; 
@@ -56,7 +55,7 @@ h2 {
 }
 
 .create_form button:hover {
-  background-color: #0056b3; 
+  background-color: #002043; 
 }
 
 .task {
@@ -68,7 +67,7 @@ h2 {
   border: 1px solid #ddd; 
   border-radius: 5px; 
   width: 345px;
-  height: 35px;
+  height: 50px;
   padding: 5px 10px; 
   margin-top: 5px; 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -78,4 +77,25 @@ h2 {
 .task:hover {
   transform: translateY(-3px); 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+}
+
+.icon {
+  font-size: 20px; 
+  color: #0056b3; 
+  cursor: pointer; 
+}
+
+.icon:hover {
+  color: #002043; 
+}
+
+.line_through{
+  text-decoration: line-through;
+  color: gray;
 }
