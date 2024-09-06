@@ -10,7 +10,7 @@ app.use(express.json())
 mongoose.connect('mongodb://127.0.0.1:27017/test', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  });
+});
   
 
 app.post('/add', (req, res) => {
@@ -21,6 +21,12 @@ app.post('/add', (req, res) => {
     TodoModel.create({
         task: task
     }).then(result => res.json(result))
+    .catch(err => res.json(err))
+})
+
+app.get('/get', (req, res) => {
+    TodoModel.find()
+    .then(result => res.json(result))
     .catch(err => res.json(err))
 })
 
