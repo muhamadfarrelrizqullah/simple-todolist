@@ -1,52 +1,76 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
-const TodoModel = require('./Models/Todo')
+const express = require('express');
+const cors = require('cors');
+const sequelize = require('./db');
+const Todo = require('./Models/Todo');
 
-const app = express()
-app.use(cors())
-app.use(express.json())
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/test', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-  
+// Sinkronisasi model dengan database
+sequelize.sync()
+    .then(() => console.log('Database connected and synced'))
+    .catch(err => console.error('Unable to connect to the database:', err));
 
+// Tambah Todo
 app.post('/add', (req, res) => {
-    const task = req.body.task;
+    const {
+        task
+    } = req.body;
     if (!task) {
-        return res.status(400).json({ error: "Task is required" });
+        return res.status(400).json({
+            error: 'Task is required'
+        });
     }
-    TodoModel.create({
-        task: task
-    }).then(result => res.json(result))
-    .catch(err => res.json(err))
-})
 
-app.get('/get', (req, res) => {
-    TodoModel.find()
-    .then(result => res.json(result))
-    .catch(err => res.json(err))
-})
-
-app.put('/update/:id', (req, res) => {
-    const { id } = req.params;
-
-    TodoModel.findByIdAndUpdate({ _id: id }, { done: true })
+    Todo.create({
+            task
+        })
         .then(result => res.json(result))
         .catch(err => res.json(err));
 });
 
-app.delete('/delete/:id', (req, res) => {
-    const { id } = req.params;
+// Ambil Semua Todo
+app.get('/get', (req, res) => {
+    Todo.findAll()
+        .then(result => res.json(result))
+        .catch(err => res.json(err));
+});
 
-    TodoModel.findByIdAndDelete(id)
+// Update Todo
+app.put('/update/:id', (req, res) => {
+    const {
+        id
+    } = req.params;
+
+    Todo.update({
+            done: true
+        }, {
+            where: {
+                id
+            }
+        })
+        .then(result => res.json(result))
+        .catch(err => res.json(err));
+});
+
+// Hapus Todo
+// Hapus Todo
+app.delete('/delete/:id', (req, res) => {
+    const {
+        id
+    } = req.params;
+
+    Todo.destroy({
+            where: {
+                id
+            }
+        })
         .then(result => res.json(result))
         .catch(err => res.json(err));
 });
 
 
 app.listen(3001, () => {
-    console.log("Server is running..")
-})
+    console.log('Server is running..');
+});

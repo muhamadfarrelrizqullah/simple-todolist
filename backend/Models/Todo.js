@@ -1,9 +1,18 @@
-const mongoose = require('mongoose')
+const {
+    DataTypes
+} = require('sequelize');
+const sequelize = require('../db');
 
-const TodoSchema = new mongoose.Schema({
-    task: { type: String, required: true },
-    done: { type: Boolean, default: false }
+// Definisikan model Todo
+const Todo = sequelize.define('Todo', {
+    task: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    done: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
 });
-  
-const TodoModel = mongoose.model("todos", TodoSchema);  
-module.exports =TodoModel
+
+module.exports = Todo;
